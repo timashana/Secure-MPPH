@@ -1,0 +1,13 @@
+here are two simple description of the Yao protocol
+https://www.cs.utexas.edu/~shmat/courses/cs380s_fall09/17yao.ppt
+
+https://homepages.cwi.nl/~schaffne/courses/crypto/2014/presentations/Kostis_Yao.pdf
+
+The Yao protocol has been implemented ... this is a good library to use called SCAPI
+https://github.com/cryptobiu/libscapi
+
+What we could do to start, is to use a simple perceptual hash (any of the ones we have seen so far) and use that. The biggest challenge will be to write the code in the form of a Boolean Circuit. 
+
+Can you guys start looking at the SCAPI code and start familiarizing yourself with it?
+
+Thanks

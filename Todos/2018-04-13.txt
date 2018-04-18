@@ -1,0 +1,13 @@
+>also as an aside Alex Stamos (the CSO of Facebook) is going to be on campus on May 9th or 10th. It would be great to have a prototype to show him!
+>- Rosario
+
+0)set up development environment and GitHub
+	- write documentation on liking external libraries using g++
+	- write documentation on using external headers in code
+	- write a main.cpp to test using the libraries.
+
+1) write steps a,b,c from page 27 of the [phash.org](http://phash.org) masters thesis using c++
+
+2)write steps d and e of that same page in circuit-format stipulated by libscapi documentation
+
+3)write test code that can compare output of circuit with output of phash library functions
