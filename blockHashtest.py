@@ -18,7 +18,7 @@ gates = 0   # keep track of the number of gates in the circuit
 # test run on random 256px pic with 8b greyscale for ea pixel:
 
 # read the string
-input = np.array([zero, one]+[k for k in range(2, 2050)])
+input_arr = np.array([zero, one]+[k for k in range(2, 2050)])
 # divide into 16 blocks of 16 pixels (with 8b greyscale)
 shape = (16, 16, 8)
 tmp = input[2::].reshape(shape)
