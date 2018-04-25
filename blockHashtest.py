@@ -18,10 +18,11 @@ gates = 0   # keep track of the number of gates in the circuit
 # test run on random 256px pic with 8b greyscale for ea pixel:
 
 # read the string
-input_arr = np.array([zero, one]+[k for k in range(2, 2050)])
+bits = [k for k in range(2, 2050)]
+input_arr = np.array(bits)
 # divide into 16 blocks of 16 pixels (with 8b greyscale)
 shape = (16, 16, 8)
-tmp = input[2::].reshape(shape)
+tmp = input_arr.reshape(shape)
 # go from numpy matrix to nested lists
 A = tmp.tolist()
 
@@ -31,6 +32,14 @@ M, curr_wire, gates = meanBlockHash.ALLMEANS(A, zero, curr_wire, gates, l)
 # compare each block mean to the main mean and compute the hash
 result, curr_wire, gates = meanBlockHash.BLKHASH(M, one, curr_wire, gates, l)
 
+print('Input wire labels:')
+#Uncomment to print the input wire labels
+'''
+print(0)
+print(1)
+for x in bits:
+    print(x)
+'''
 print('Gates:')
 for x in l:
     print(x)
