@@ -1,6 +1,14 @@
 # Secure-MPPH
-A group project for optimization perceptual hashing techniques
+ Mean-block value perceptual hashing algorithms secured by Yao's garbling circuit. 
 
-## Some Important Links:
-* [clearscene/pHash: Github-Repository of the pHash.org library for perceptual hashing.](https://github.com/clearscene/pHash)
-* [PHash to opencv (implementation code for block mean image hash)](https://gist.github.com/stereomatchingkiss/6b9034f72850b518f63631852d7b636f)
+
+
+## This Repository Uses Submodules for Dependencies
+Secure-MPPH draws upon [libscapi](https://github.com/cryptobiu/libscapi)  and [phash](https://github.com/clearscene/pHash) which are both 3rd party C++ libraries. Note: we use a [forked version of phash](https://github.com/dahadaller/pHash) In order to incorporate the block mean hash algorithm implemented [here.](https://gist.github.com/stereomatchingkiss/6b9034f72850b518f63631852d7b636f)  So, to properly clone this library, issue the following commands after cloning the repository:
+
+```bash
+git submodule init
+git submodule update
+```
+
+the submodules will then download into the `libraries/libscapi` and `libararies/phash` folders. Without this step, the `libraries` folder will remain empty and all code dependent on the non-stl libraries will not function.
