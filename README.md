@@ -11,4 +11,4 @@ git submodule init
 git submodule update
 ```
 
-the submodules will then download into the `libraries/libscapi` and `libararies/phash` folders. Without this step, the `libraries` folder will remain empty and all code dependent on the non-stl libraries will not function.
+the submodules will then download into the `libraries/libscapi` and `libararies/phash` folders. Without this step, the `libraries` folder will remain empty and all code dependent on the non-stl libraries will not function. For more information about submodules check the [git-scm documentation](https://git-scm.com/book/en/v2/Git-Tools-Submodules).
