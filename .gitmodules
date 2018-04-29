@@ -1,0 +1,6 @@
+[submodule "pHash"]
+	path = lib/pHash
+	url = https://github.com/dahadaller/pHash.git
+[submodule "libscapi"]
+	path = lib/libscapi
+	url = https://github.com/cryptobiu/libscapi.git

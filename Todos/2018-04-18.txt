@@ -1,6 +1,5 @@
 - Turns out that there is no Block-Mean Hash implemented in the src/pHash.cpp file. There's only the prototype in the src/pHash.h file. so the todo's from 2018-04-13 have changed:
 
-
 #DAVID
 1. set up development environment and GitHub
 - write documentation on liking external libraries using g++
@@ -8,6 +7,5 @@
 - write a main.cpp to test using the libraries.
 
 2. Test whethere or not the mean block hash implementation from the README page works with a test application.
-
 #BON & ANA
 1. Continue work on implementing the block mean hash write steps d and e of the of the [phash.org](http://phash.org) masters thesis using c++  in the circuit-format stipulated by libscapi documentation
