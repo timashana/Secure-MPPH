@@ -49,7 +49,14 @@ def TWOCOMPARATOR(a, b, curr_wire, one, l):
 
 def COMPARATOR(A, B, one, curr_wire, gates, l):
     '''PRE: A, B - 8-bit binary lists
-        POST: l contains all gates for the 8-bit comparator, returned are result wire label and updated gates number'''
+        POST: l contains all gates for the 8-bit comparator, returned are result wire label (w/values: 1 => A>=B, 0 => A<B) and updated gates number'''
+
+    # OR curr_wire and one to make curr_wire carry value of 1
+    l_curr_wire_to_one = [XOR(one, curr_wire, curr_wire+1), AND(one, curr_wire, curr_wire+2), XOR(curr_wire+1, curr_wire+2, curr_wire+3)]
+    l+=l_curr_wire_to_one
+    curr_wire+=3
+    gates+=3
+
     for i in range(8):
         curr_wire=TWOCOMPARATOR(A[i], B[i], curr_wire, one, l)
         gates+=7
