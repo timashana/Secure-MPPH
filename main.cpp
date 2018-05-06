@@ -169,7 +169,10 @@ for (size_t init_row = 0; init_row <= last; init_row+=block_side_length){
 std::sort (bm_vector.begin(), bm_vector.end());
 median = bm_vector[bm_vector.size()/2];
 //ASK: depending on what Bon and Anastasia say about the "normalizing" process, the median can be 
-
+/*ASK: Ask about libscapi. Do Bon and Anastasia need me to incorporate their circuit into some c++ code, or will
+    will they be using the example test script with a different circuit file. (The test script is in 
+    libraries/libscapi/samples/Yao
+*/
 
 /*
 TODOs
