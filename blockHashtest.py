@@ -10,7 +10,7 @@ import numpy as np
 from random import choice
 
 def writeCircuitFile(num_of_gates, party, p1_wires, gateList, output):
-''' Write and store the circuit file '''
+    # Write and store the circuit file
     with open('MPPH.txt','w') as f:
         s = str(num_of_gates) + '\n' + str(party) + '\n'
         s += '1 ' + str(p1_wires) + '\n\n'
@@ -36,7 +36,7 @@ def writeCircuitFile(num_of_gates, party, p1_wires, gateList, output):
         f.close()
 
 def writeInputFile():
-''' Write and store the Party One and Party Two input files '''
+    # Write and store the Party One and Party Two input files
     with open('MPPHPartyOneInputs.txt', 'w') as f:
         f.write('2048\n')
         # One can change the input value by changing b in the following two for-loop
