@@ -16,6 +16,8 @@ That is, A = [A0, A1, ..., An] represents binary number An..A2A1A0
 Unless specified, all variables are not actual values, but labels to the corresponding wires
 '''
 
+from math import log
+
 def AND(a, b, c):
     '''PRE: a, b - input labels, c - output label
         POST: libscapy-format string for AND gate with specified labels'''
@@ -88,7 +90,9 @@ def BLKMEAN(A, zero, curr_wire, gates, l):
         POST: l contains all the gates for finding the sum of the 16 number, returned are the 8b mean and updated curr-wire, gates'''
 
     # use cascading approach to find the sum of all 16 numbers by adding two at a time => 4 "levels":
-    for lvl in range(1, 5):
+    block_size = len(A)
+    num_of_lvl = int(log(block_size,2)+1)
+    for lvl in range(1, num_of_lvl):
         # on each level, calculate sum = list of pairwise sums
         sum = []
         for i in range(0, len(A), 2):
