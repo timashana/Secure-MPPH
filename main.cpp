@@ -162,17 +162,12 @@ for (size_t init_row = 0; init_row <= last; init_row+=block_side_length){
             vector_sum += *it;
         }
         vector_length = pi_vector.size();
-        block_mean = vector_sum / vector_length; // this uses integer division. ASK: does that interfere with the mean as calculated in the circuit?
+        block_mean = vector_sum / vector_length;
         bm_vector.pushback(block_mean);
     }
 }
 std::sort (bm_vector.begin(), bm_vector.end());
 median = bm_vector[bm_vector.size()/2];
-//ASK: depending on what Bon and Anastasia say about the "normalizing" process, the median can be 
-/*ASK: Ask about libscapi. Do Bon and Anastasia need me to incorporate their circuit into some c++ code, or will
-    will they be using the example test script with a different circuit file. (The test script is in 
-    libraries/libscapi/samples/Yao
-*/
 
 /*
 TODOs
@@ -186,8 +181,17 @@ TODOs
     6.Convert the median (of the block-means) into a binary number.
     7.somehow obtain the hash from the binary number (not too sure about this step)
 
+    -implment mean instead of median
+    -normalize the hash value
+
 TODO(later)
     8. Address comments and questions about type to skeith.
     9. get filename from std::in, make a command line interface to this application.
     10. find out how to compile with the OpenCV lbrary. 
+    11. On about libscapi. Do Bon and Anastasia need me to incorporate their circuit into some c++ code, or will
+    will they be using the example test script with a different circuit file. (The test script is in 
+    libraries/libscapi/samples/Yao
+
+    Ask Rosario after 9th/10th to bring up the things.
+*/
 */
