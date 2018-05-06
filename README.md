@@ -1,5 +1,5 @@
 # Secure-MPPH
- The block-mean value perceptual hashing algorithm secured by Yao's garbling circuit. 
+ Secure-MPPH stands for Secure Multi-Party Perceptual Hash. The block-mean value perceptual hash algorithm is secured by Yao's garbling circuit. 
 
 
 

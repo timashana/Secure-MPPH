@@ -1,0 +1,7 @@
+
+#David
+1) write steps a,b,c from page 27 of the [phash.org](http://phash.org) masters thesis using c++
+
+2)speak with bon and Anastasia about making   sure my work in steps a, b, c produce an input acceptable by their cirucuit in steps d and e.
+
+3) Test whethere or not the mean block hash implementation from the README page works with a test application.

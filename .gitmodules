@@ -4,3 +4,6 @@
 [submodule "libraries/libscapi"]
 	path = libraries/libscapi
 	url = https://github.com/cryptobiu/libscapi.git
+[submodule "libraries/blockMeanGist"]
+	path = libraries/blockMeanGist
+	url = https://gist.github.com/fa66ab07249b1bd4fb86ac24f86439b8.git
