@@ -2,44 +2,49 @@ import cv2
 import numpy as np
 
 ##replace "filename" input parameter with actual input name
-img = cv2.imread('filename.jpg',0)
+img = cv2.imread('img.jpg',0)
 
 block_side_length = 4
 img_side_length = 16
-last = block_side_length - img_side_length
+last = img_side_length - block_side_length
 
 pi_list = []
+bin_pi_list = []
 bm_list = []
 
 # In this nested for loop, I am iterating through a 2-d matrix of 2-d matrices.
 # By dividing the image into blocks, each block itself is a 2d matrix of grayscale intensity values.
-# The image, then, becomes a matrix of 2d matrices.
+
 init_row = 0
-init_col = 0
-
 while init_row <= last:
-	init_row+=block_side_length
 
-	while init_col <= last:
-		init_col+=block_side_length
+    init_col = 0
+    while init_col <= last:
 
-		block_row = init_row
-		while block_row % 4 != 0 && block_row != init_row:
-			block_row++
+        block_row = init_row
+        while block_row % 4 != 0 or block_row == init_row:
 
-			size_t block_col = init_col
-			while block_col % 4 != 0 && block_col != init_col:
+            block_col = init_col
+            while block_col % 4 != 0 or block_col == init_col:
+
 
                 pixel_intensity = img[block_row, block_col] #find out the filetype of the image, it matters for this step. Might need to replace uchar with something else.
                 pi_list.append(pixel_intensity)
+                block_col+=1
 
+            block_row+=1
+        
         pi_sum = 0
         for pi in pi_list:
-        	pi_sum += pi
+            pi_sum += pi
 
         pi_list_length = len(pi_list)
         block_mean = pi_sum // pi_list_length
         bm_list.append(block_mean)
+
+        init_col+=block_side_length
+
+    init_row+=block_side_length
 
 # This is to compute the median of the block mean values.
 # We're going to use the mean instead.
@@ -48,7 +53,7 @@ while init_row <= last:
 
 bm_sum = 0
 for bm in bm_list:
-	bm_sum += pi
+    bm_sum += pi
 
 bm_list_length = len(bm_list)
 mean_of_block_means = bm_sum // bm_list_length
@@ -56,17 +61,19 @@ mean_of_block_means = bm_sum // bm_list_length
 h_list = []
 
 for bm in bm_list:
-	if bm >= mean_of_block_means:
-		h_list.append('1')
-	else:
-		h_list.append('0')
+    if bm >= mean_of_block_means:
+        h_list.append('1')
+    else:
+        h_list.append('0')
 
-ret_hash = ''.join(h_list)
-ret_pi = ''.join(pi_list)
+#ret_hash = ''.join(h_list)
+#ret_pi = ''.join(pi_list)
+ret_pi = ''.join(["{0:b}".format(pi) for pi in pi_list])
+print(ret_pi)
 
-with open('grayscale_pixel_intensity.txt','w') as f:
-	f.write(ret_pi)
-	f.close() 
+with open('bin_img.txt','w') as f:
+    f.write(ret_pi)
+    f.close() 
 
 # TODOs
 #     1.[Later] Take input image and reduce to 256x256 (with cropping). This step, though it comes first in the 
