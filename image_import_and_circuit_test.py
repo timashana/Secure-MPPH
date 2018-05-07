@@ -1,5 +1,5 @@
 import cv2
-import numpy as np
+import numpy as np #imported numpy because cv2 uses numpy data structures/data types like uint8
 
 ##replace "filename" input parameter with actual input name
 img = cv2.imread('img.jpg',0)
@@ -15,6 +15,7 @@ bm_list = []
 # In this nested for loop, I am iterating through a 2-d matrix of 2-d matrices.
 # By dividing the image into blocks, each block itself is a 2d matrix of grayscale intensity values.
 
+yo = 0
 init_row = 0
 while init_row <= last:
 
@@ -31,6 +32,9 @@ while init_row <= last:
                 pixel_intensity = img[block_row, block_col] #find out the filetype of the image, it matters for this step. Might need to replace uchar with something else.
                 pi_list.append(pixel_intensity)
                 block_col+=1
+                yo+=1
+                print("Pixel",yo,  pixel_intensity)
+
 
             block_row+=1
         
@@ -71,19 +75,27 @@ print("image hash: ",ret_hash)
 
 #creates a list of the binary pixel intensities in (lsb to msb)least significant bit to most significant bit order
 #to ensure compatibility with circuit
-bin_pi_list = []
-for pi in pi_list:
-    s = "{:08b}".format(pi) 
-    rev_s = s[::-1]
-    bin_pi_list.append(rev_s)
+# bin_pi_list = []
+# for pi in pi_list:
+#     s = "{:08b}".format(pi) 
+#     rev_s = s[::-1]
+#     bin_pi_list.append(rev_s)
 
-ret_pi = ''.join(bin_pi_list)
+# ret_pi = ''.join(bin_pi_list)
+
 #old ret_pi returned pixel intensities in msb to lsb order
-#ret_pi = ''.join(["{:08b}".format(pi) for pi in pi_list]) #creates boolean string from uint8 values in pixel intesnity list (pi_list) 
+ret_pi = ''.join(["{:08b}".format(pi) for pi in pi_list]) #creates boolean string from uint8 values in pixel intesnity list (pi_list) 
 
+#write single-line output of image
 with open('bin_img.txt','w') as f:
     f.write(ret_pi)
     f.close() 
+
+#write one bit per line image text
+with open('bin_img.txt','w') as f:
+    f.write(ret_pi)
+    f.close() 
+
 
 # TODOs
 #     1.[Later] Take input image and reduce to 256x256 (with cropping). This step, though it comes first in the 
