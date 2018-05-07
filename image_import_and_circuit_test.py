@@ -53,7 +53,7 @@ while init_row <= last:
 
 bm_sum = 0
 for bm in bm_list:
-    bm_sum += pi
+    bm_sum += bm
 
 bm_list_length = len(bm_list)
 mean_of_block_means = bm_sum // bm_list_length
@@ -66,10 +66,10 @@ for bm in bm_list:
     else:
         h_list.append('0')
 
-#ret_hash = ''.join(h_list)
-#ret_pi = ''.join(pi_list)
-ret_pi = ''.join(["{0:b}".format(pi) for pi in pi_list])
-print(ret_pi)
+ret_hash = ''.join(h_list)
+print("image hash: ",ret_hash)
+
+ret_pi = ''.join(["{0:b}".format(pi) for pi in pi_list]) #creates boolean string from uint8 values in pixel intesnity list (pi_list) 
 
 with open('bin_img.txt','w') as f:
     f.write(ret_pi)
