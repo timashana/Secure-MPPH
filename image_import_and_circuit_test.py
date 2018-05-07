@@ -69,7 +69,7 @@ for bm in bm_list:
 ret_hash = ''.join(h_list)
 print("image hash: ",ret_hash)
 
-ret_pi = ''.join(["{0:b}".format(pi) for pi in pi_list]) #creates boolean string from uint8 values in pixel intesnity list (pi_list) 
+ret_pi = ''.join(["{:08b}".format(pi) for pi in pi_list]) #creates boolean string from uint8 values in pixel intesnity list (pi_list) 
 
 with open('bin_img.txt','w') as f:
     f.write(ret_pi)
