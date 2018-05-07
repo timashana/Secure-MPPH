@@ -69,7 +69,17 @@ for bm in bm_list:
 ret_hash = ''.join(h_list)
 print("image hash: ",ret_hash)
 
-ret_pi = ''.join(["{:08b}".format(pi) for pi in pi_list]) #creates boolean string from uint8 values in pixel intesnity list (pi_list) 
+#creates a list of the binary pixel intensities in (lsb to msb)least significant bit to most significant bit order
+#to ensure compatibility with circuit
+bin_pi_list = []
+for pi in pi_list:
+    s = "{:08b}".format(pi) 
+    rev_s = s[::-1]
+    bin_pi_list.append(rev_s)
+
+ret_pi = ''.join(bin_pi_list)
+#old ret_pi returned pixel intensities in msb to lsb order
+#ret_pi = ''.join(["{:08b}".format(pi) for pi in pi_list]) #creates boolean string from uint8 values in pixel intesnity list (pi_list) 
 
 with open('bin_img.txt','w') as f:
     f.write(ret_pi)
