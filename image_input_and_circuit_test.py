@@ -96,6 +96,25 @@ with open('bin_img.txt','w') as f:
     f.close() 
 
 
+# the code below writes the bin_img.txt file to a format readable by libscapi's Yao test 
+s = ''
+with open('bin_img.txt','r') as d:
+    s = d.read()
+d.close()
+print(len(s))
+
+with open('MPPHPartyOneInputs.txt','w') as x:
+    x.write('2048\n')
+    # for i in range(len(s)):
+    #     x.write(s[i])
+    #     x.write('\n')
+    for i in range(1,257):
+        for j in range(8*i-1,8*(i-1)-1,-1):
+            # print(j)
+            x.write(s[j])
+            x.write('\n')
+    x.close()
+
 # TODOs
 #     1.[Later] Take input image and reduce to 256x256 (with cropping). This step, though it comes first in the 
 #         algorithm, can be implemented after May 9th.
