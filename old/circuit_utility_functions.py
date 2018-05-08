@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # <<<<<<< HEAD:circuit_utility_functions.py
 # '''
 # 4/24/2018 - Anastasiia Timashova github.com/timashana
@@ -125,6 +126,8 @@
 #         hash.append(curr_wire)
 #     return hash, curr_wire, gates
 # =======
+=======
+>>>>>>> dcf7f5733df26b0a567a793219831cf2f63d3a88
 '''
 4/24/2018 - Anastasiia Timashova github.com/timashana
 
@@ -253,4 +256,8 @@ def BLKHASH(M, one, curr_wire, gates, l):
     for i in range(size-1):
         curr_wire, gates = COMPARATOR(M[i], M[size-1], one, curr_wire, gates, l)
         hash.append(curr_wire)
+<<<<<<< HEAD
     return hash, curr_wire, gates
+=======
+    return hash, curr_wire, gates
+>>>>>>> dcf7f5733df26b0a567a793219831cf2f63d3a88
