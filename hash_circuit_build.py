@@ -35,18 +35,18 @@ def writeCircuitFile(num_of_gates, party, p1_wires, gateList, output):
         f.close()
 
 def writeInputFile():
-    with open('MPPHPartyOneInputs.txt', 'w') as f:
-        f.write('2048\n')
-        for i in range(1024):
-            b = 1
-            s = str(b) + '\n'
-            f.write(s)
-        for i in range(1024):
-            #b = randint(0,1)
-            b = 0
-            s = str(b) + '\n'
-            f.write(s)
-        f.close()
+    # with open('MPPHPartyOneInputs.txt', 'w') as f:
+    #     f.write('2048\n')
+    #     for i in range(1024):
+    #         b = 1
+    #         s = str(b) + '\n'
+    #         f.write(s)
+    #     for i in range(1024):
+    #         #b = randint(0,1)
+    #         b = 0
+    #         s = str(b) + '\n'
+    #         f.write(s)
+    #     f.close()
     with open('MPPHPartyTwoInputs.txt', 'w') as t:
         t.write('2\n')
         for i in range(0,2):
