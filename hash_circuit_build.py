@@ -5,7 +5,7 @@ TEST FILE FOR CREATIN A MEAN BLOCK HASH CIRCUIT IN LIBSCAPI FORMAT
 
 '''
 
-import hash_circuit_functions
+from hash_circuit_functions import *
 import numpy as np
 from random import choice
 
@@ -75,10 +75,10 @@ A = tmp.tolist()
 curr_wire = 2050
 
 # create M - list of means for each block (M[0]-M[16]) and the mean of the means(M[15])
-M, curr_wire, gates = meanBlockHash.ALLMEANS(A, zero, curr_wire, gates, l)
+M, curr_wire, gates = ALLMEANS(A, zero, curr_wire, gates, l)
 
 # compare each block mean to the main mean and compute the hash
-result, curr_wire, gates = meanBlockHash.BLKHASH(M, one, curr_wire, gates, l)
+result, curr_wire, gates = BLKHASH(M, one, curr_wire, gates, l)
 
 print('Input wire labels:')
 #Uncomment to print the input wire labels
