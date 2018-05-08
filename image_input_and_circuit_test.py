@@ -88,13 +88,7 @@ ret_pi = ''.join(["{:08b}".format(pi) for pi in pi_list_export]) #creates boolea
 #write single-line output of image
 with open('bin_img.txt','w') as f:
     f.write(ret_pi)
-    f.close() 
-
-#write one bit per line image text
-with open('bin_img.txt','w') as f:
-    f.write(ret_pi)
-    f.close() 
-
+    f.close()
 
 # the code below writes the bin_img.txt file to a format readable by libscapi's Yao test 
 s = ''
