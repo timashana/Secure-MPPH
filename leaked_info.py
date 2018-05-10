@@ -24,10 +24,10 @@ while init_row <= last:
     while init_col <= last:
 
         block_row = init_row
-        while block_row % 4 != 0 or block_row == init_row:
+        while block_row % block_side_length != 0 or block_row == init_row:
 
             block_col = init_col
-            while block_col % 4 != 0 or block_col == init_col:
+            while block_col % block_side_length != 0 or block_col == init_col:
 
 
                 pixel_intensity = img2[block_row, block_col] #find out the filetype of the image, it matters for this step. Might need to replace uchar with something else.
