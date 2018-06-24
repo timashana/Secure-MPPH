@@ -91,7 +91,7 @@ print("ret_pi is", ret_pi)
 ret_pi = ''.join(["{:08b}".format(pi) for pi in pi_list_export]) #creates boolean string from uint8 values in pixel intesnity list (pi_list)
 '''
 #write single-line output of image
-with open('bin_img.txt','w') as f:
+with open('big_bin_img.txt','w') as f:
     f.write(ret_pi)
     f.close()
 
