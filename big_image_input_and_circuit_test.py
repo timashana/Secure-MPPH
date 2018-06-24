@@ -1,7 +1,7 @@
 import cv2
 import numpy as np #imported numpy because cv2 uses numpy data structures/data types like uint8
 
-# HASH fFOR THE 256x256 IMAGE:
+# HASH FOR THE 256x256 IMAGE:
 # 0010111111111100001111111111110000111111111111100011111111101111001011100111111100111111111111110011100111110111001100001111001100010000111100110001101101100111000111100000010100011100000001110001100000000111000110000000111100011000000000111111000000000000
 
 ##replace "filename" input parameter with actual input name
@@ -78,6 +78,7 @@ print("image hash: ",ret_hash)
 #creates a list of the binary pixel intensities in (lsb to msb)least significant bit to most significant bit order
 #to ensure compatibility with circuit
 # bin_pi_list = []
+'''
 print(pi_list)
 for pi in pi_list:
     s = "{:08b}".format(pi)
@@ -89,7 +90,7 @@ print("ret_pi is", ret_pi)
 '''
 #old ret_pi returned pixel intensities in msb to lsb order
 ret_pi = ''.join(["{:08b}".format(pi) for pi in pi_list_export]) #creates boolean string from uint8 values in pixel intesnity list (pi_list)
-'''
+
 #write single-line output of image
 with open('big_bin_img.txt','w') as f:
     f.write(ret_pi)
@@ -104,6 +105,7 @@ print(len(s))
 
 with open('MPPHPartyOneInputs.txt','w') as x:
     x.write('524288\n')
+	'''
     for i in range(len(s)):
         x.write(s[i])
         x.write('\n')
@@ -113,7 +115,7 @@ with open('MPPHPartyOneInputs.txt','w') as x:
             # print(j)
             x.write(s[j])
             x.write('\n')
-            '''
+            
     x.close()
 
 # TODOs
