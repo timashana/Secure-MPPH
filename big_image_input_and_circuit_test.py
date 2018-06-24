@@ -15,7 +15,7 @@ pi_list = []
 pi_list_export = []
 bin_pi_list = []
 bm_list = []
-
+ 
 # In this nested for loop, I am iterating through a 2-d matrix of 2-d matrices.
 # By dividing the image into blocks, each block itself is a 2d matrix of grayscale intensity values.
 
