@@ -1,94 +1,84 @@
 import cv2
+from math import sqrt
 import numpy as np #imported numpy because cv2 uses numpy data structures/data types like uint8
 
-##replace "filename" input parameter with actual input name
-img = cv2.imread('img.jpg',0)
+img = cv2.imread('img.jpg',0) # Load a color image in grayscale. Grayscale pixel values go from 0 to 255 inclusive.
 
-block_side_length = 4
-img_side_length = 16
-last = img_side_length - block_side_length
+# img_side_length = 16
+# block_side_length = 4
 
-pi_list = []
-pi_list_export = []
-bin_pi_list = []
-bm_list = []
+img_side_length = len(img.columns)
+block_side_length = sqrt(img_side_length)
 
-# In this nested for loop, I am iterating through a 2-d matrix of 2-d matrices.
+last_row_of_block = img_side_length - block_side_length
+last_col_of_block = last_row_of_block
+
+# lists I'll be appending to throughout the function
+block_pi_list = [] #this pixel intensity list is overwritten for each block and helps calculate the mean pixel intensity
+block_mean_list = [] #Block mean list holds the block
+hash_as_list = [] #calulate the hash digit for each block mean and then put it here
+
+
+# In this nested for loop, I am iterating through a sort of 2-d matrix of 2-d matrices. 
+    # it isn't really a 4d matrix because I only have two coordinates for the dataframe
+    # it's really a 2d matrix for which I make reference to submatrices within it (which are also 2d)
 # By dividing the image into blocks, each block itself is a 2d matrix of grayscale intensity values.
+# the row_of_block and col_of_block variables represent the row,col values for the top left hand corner of each block relative to other blocks within the image
+# the row_inside_block and col_inside_block variables represent the rows and columns within the blocks themselves.
 
-init_row = 0
-while init_row <= last:
+for row_of_block in range(0,last_row_of_block,block_side_length):
 
-    init_col = 0
-    while init_col <= last:
+    for col_of_block in range(0,last_col_of_block,block_side_length):
 
-        block_row = init_row
-        while block_row % 4 != 0 or block_row == init_row:
+        row_inside_block = row_of_block
+        while row_inside_block % 4 != 0 or row_inside_block == row_of_block:
 
-            block_col = init_col
-            while block_col % 4 != 0 or block_col == init_col:
+            col_inside_block = col_of_block
+            while col_inside_block % 4 != 0 or col_inside_block == col_of_block:
 
+                pixel_intensity = img[row_inside_block, col_inside_block] #find out the filetype of the image, it matters for this step. Might need to replace uchar with something else.
+                block_pi_list.append(pixel_intensity)
+                col_inside_block+=1
 
-                pixel_intensity = img[block_row, block_col] #find out the filetype of the image, it matters for this step. Might need to replace uchar with something else.
-                pi_list.append(pixel_intensity)
-                pi_list_export.append(pixel_intensity)
-                block_col+=1
-
-            block_row+=1
+            row_inside_block+=1
         
-        pi_sum = 0
-        for pi in pi_list:
-            pi_sum += pi
+        pi_sum = sum(block_pi_list)
+        block_pi_list_length = len(block_pi_list)
+        block_mean = pi_sum // block_pi_list_length
 
-        pi_list_length = len(pi_list)
-        block_mean = pi_sum // pi_list_length
-        bm_list.append(block_mean)
-        pi_list.clear()
+        block_mean_list.append(block_mean)
+        block_pi_list.clear()
 
-        init_col+=block_side_length
+bm_sum = sum(block_mean_list)
+block_mean_list_length = len(block_mean_list)
+mean_of_block_means = bm_sum // block_mean_list_length
 
-    init_row+=block_side_length
-
-# This is to compute the median of the block mean values.
-# We're going to use the mean instead.
-# sorted_bm_list = bm_list.sort()
-# median = sorted_bm_list[len(sorted_bm_list)//2]
-
-bm_sum = 0
-for bm in bm_list:
-    bm_sum += bm
-
-bm_list_length = len(bm_list)
-mean_of_block_means = bm_sum // bm_list_length
-
-h_list = []
-
-for bm in bm_list:
+for bm in block_mean_list:
     if bm >= mean_of_block_means:
-        h_list.append('1')
+        hash_as_list.append('1')
     else:
-        h_list.append('0')
+        hash_as_list.append('0')
 
-ret_hash = ''.join(h_list)
-print("image hash: ",ret_hash)
+hash_as_string = ''.join(hash_as_list)
+print("image hash: ",hash_as_string)
 
-#creates a list of the binary pixel intensities in (lsb to msb)least significant bit to most significant bit order
-#to ensure compatibility with circuit
-# bin_pi_list = []
-# for pi in pi_list:
-#     s = "{:08b}".format(pi) 
-#     rev_s = s[::-1]
-#     bin_pi_list.append(rev_s)
 
-# ret_pi = ''.join(bin_pi_list)
 
-#old ret_pi returned pixel intensities in msb to lsb order
-ret_pi = ''.join(["{:08b}".format(pi) for pi in pi_list_export]) #creates boolean string from uint8 values in pixel intesnity list (pi_list) 
+# this should be a separate function for generating the bin_img.txt file that's binary grayscale values of the image 
+img_pi_list = [] #pixel intensity list for whole image
+for pixel_row in range(img_side_length):
+    for pixel_col in range(img_side_length):
+        img_pi_list.append(pixel_intensity)
+
+#old img_pi_string returned pixel intensities in msb to lsb order
+img_pi_string = ''.join(["{:08b}".format(pi) for pi in img_pi_list]) #creates boolean string from uint8 values in pixel intesnity list (block_pi_list) 
 
 #write single-line output of image
 with open('bin_img.txt','w') as f:
-    f.write(ret_pi)
+    f.write(img_pi_string)
     f.close()
+
+
 
 # the code below writes the bin_img.txt file to a format readable by libscapi's Yao test 
 s = ''
@@ -108,27 +98,3 @@ with open('MPPHPartyOneInputs.txt','w') as x:
             x.write(s[j])
             x.write('\n')
     x.close()
-
-# TODOs
-#     1.[Later] Take input image and reduce to 256x256 (with cropping). This step, though it comes first in the 
-#         algorithm, can be implemented after May 9th.
-#     2.[DONE] Convert image to grayscale.
-#     3.[DONE] Divide image into 256 row-major blocks.
-#     4.[DONE]For each of the blocks, calculate the mean intensity and put that mean into a vector of means 
-#         after it's computed.
-#     5.[DONE] Sort the vector of means and find the median.
-#     6.Convert the median (of the block-means) into a binary number.
-#     7.somehow obtain the hash from the binary number (not too sure about this step)
-
-#     -implment mean instead of median
-#     -normalize the hash value
-
-# TODO(later)
-#     8. Address comments and questions about type to skeith.
-#     9. get filename from std::in, make a command line interface to this application.
-#     10. find out how to compile with the OpenCV lbrary. 
-#     11. On about libscapi. Do Bon and Anastasia need me to incorporate their circuit into some c++ code, or will
-#     will they be using the example test script with a different circuit file. (The test script is in 
-#     libraries/libscapi/samples/Yao
-
-#     Ask Rosario after 9th/10th to bring up the things.
