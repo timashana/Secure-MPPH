@@ -107,11 +107,11 @@ print(len(s))
 
 with open('MPPHPartyOneInputs.txt','w') as x:
     x.write('524288\n')
-	'''
-    for i in range(len(s)):
-        x.write(s[i])
-        x.write('\n')
-        '''
+
+    # for i in range(len(s)):
+    #     x.write(s[i])
+    #     x.write('\n')
+    
     for i in range(1,65537):
         for j in range(8*i-1,8*(i-1)-1,-1):
             # print(j)

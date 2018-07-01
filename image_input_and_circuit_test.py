@@ -8,7 +8,7 @@ def blockMeanHash(imgFileName):
 
     img_side_length = img.shape[0]
     block_side_length = int(sqrt(img_side_length))
-    
+
     # lists I'll be appending to throughout the function
     block_pi_list = [] #this pixel intensity list is overwritten for each block and helps calculate the mean pixel intensity
     block_mean_list = [] #Block mean list holds the block
@@ -73,33 +73,15 @@ def img2text(imgFileName):
             img_pi_list.append(pixel_intensity)
 
     #old img_pi_string returned pixel intensities in msb to lsb order
-    img_pi_string = ''.join(["{:08b}".format(pi) for pi in img_pi_list]) #creates boolean string from uint8 values in pixel intesnity list (block_pi_list) 
+    img_pi_bin_string = ''.join(["{:08b}".format(pi) for pi in img_pi_list]) #creates boolean string from uint8 values in pixel intesnity list (block_pi_list) 
+    
+    img_pi_bin_list = list(img_pi_bin_string)
+    img_pi_bin_string_column = "\n".join(img_pi_bin_list)
+    MPPHPartyOneInputs = str(len(img_pi_bin_list)) + "\n" + img_pi_bin_string_column
 
-    #write single-line output of image
-    with open('bin_img.txt','w') as f:
-        f.write(img_pi_string)
+    with open('MPPHPartyOneInputs.txt','w') as f:
+        f.write(MPPHPartyOneInputs)
         f.close()
-
-
-
-    # the code below writes the bin_img.txt file to a format readable by libscapi's Yao test 
-    s = ''
-    with open('bin_img.txt','r') as d:
-        s = d.read()
-    d.close()
-    print(len(s))
-
-    with open('MPPHPartyOneInputs.txt','w') as x:
-        x.write('2048\n')
-        # for i in range(len(s)):
-        #     x.write(s[i])
-        #     x.write('\n')
-        for i in range(1,257):
-            for j in range(8*i-1,8*(i-1)-1,-1):
-                # print(j)
-                x.write(s[j])
-                x.write('\n')
-        x.close()
 
 
 # execution of functions starts here
