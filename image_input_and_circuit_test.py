@@ -15,16 +15,15 @@ def blockMeanHash(imgFileName):
     hash_as_list = [] #calulate the hash digit for each block mean and then put it here
 
 
-    # In this nested for loop, I am iterating through a sort of 2-d matrix of 2-d matrices. 
+    # In this nested for loop, I am iterating through a (kind of) of 2-d matrix of 2-d matrices. 
         # it isn't really a 4d matrix because I only have two coordinates for the dataframe
         # it's really a 2d matrix for which I make reference to submatrices within it (which are also 2d)
     # By dividing the image into blocks, each block itself is a 2d matrix of grayscale intensity values.
     # the row_of_block and col_of_block variables represent the row,col values for the top left hand corner of each block relative to other blocks within the image
     # the row_inside_block and col_inside_block variables represent the rows and columns within the blocks themselves.
 
-
     # these two outermost for loops move from block to block within the image (if it's a 256x256 image, then there are 16 16x16 blocks)
-    for row_of_block in range(0,img_side_length,block_side_length):
+    for row_of_block in range(0,img_side_length,block_side_length): #range(start,stop,step) start is included, stop is excluded, new index =  old index + step
 
         for col_of_block in range(0,img_side_length,block_side_length):
 
@@ -39,7 +38,7 @@ def blockMeanHash(imgFileName):
 
                     pixel_intensity = img[row_inside_block, col_inside_block]
                     block_pi_list.append(pixel_intensity)
-                    #print("Row/Col Coordinates: (", row_inside_block, col_inside_block, ")") this is troubleshooting code that prints in what order the pixels are traversed
+                    #print("Row/Col Coordinates: (", row_inside_block, col_inside_block, ")") #this is troubleshooting code that prints in what order the pixels are traversed
                     col_inside_block+=1
 
                 row_inside_block+=1
@@ -83,7 +82,6 @@ def img2text(imgFileName):
 
     #old img_pi_string returned pixel intensities in msb to lsb order
     img_pi_bin_string = ''.join(["{:08b}".format(pi) for pi in img_pi_list]) #creates boolean string from uint8 values in pixel intesnity list (block_pi_list) 
-    
     img_pi_bin_list = list(img_pi_bin_string)
     img_pi_bin_string_column = "\n".join(img_pi_bin_list)
     MPPHPartyOneInputs = str(len(img_pi_bin_list)) + "\n" + img_pi_bin_string_column
