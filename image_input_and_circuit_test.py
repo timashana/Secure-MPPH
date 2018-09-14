@@ -23,34 +23,42 @@ def blockMeanHash(imgFileName):
     # the row_inside_block and col_inside_block variables represent the rows and columns within the blocks themselves.
 
 
+    # these two outermost for loops move from block to block within the image (if it's a 256x256 image, then there are 16 16x16 blocks)
     for row_of_block in range(0,img_side_length,block_side_length):
 
         for col_of_block in range(0,img_side_length,block_side_length):
 
+            # these two innermost loops cycle through the contents inside each block (each 16x16 block, in the case of 256x256 image)
             row_inside_block = row_of_block
             while row_inside_block % block_side_length != 0 or row_inside_block == row_of_block:
 
                 col_inside_block = col_of_block
                 while col_inside_block % block_side_length != 0 or col_inside_block == col_of_block:
 
-                    pixel_intensity = img[row_inside_block, col_inside_block] #find out the filetype of the image, it matters for this step. Might need to replace uchar with something else.
+                    #inside each block, all we're doing is transferring each pixel intensity in the block to a list
+
+                    pixel_intensity = img[row_inside_block, col_inside_block]
                     block_pi_list.append(pixel_intensity)
-                    #print("Row/Col Coordinates: (", row_inside_block, col_inside_block, ")")
+                    #print("Row/Col Coordinates: (", row_inside_block, col_inside_block, ")") this is troubleshooting code that prints in what order the pixels are traversed
                     col_inside_block+=1
 
                 row_inside_block+=1
-            
+
+            # after we've gotten the pixel intensity list for a given block, we use it to compute the block mean
             pi_sum = sum(block_pi_list)
             block_pi_list_length = len(block_pi_list)
             block_mean = pi_sum // block_pi_list_length
 
+            # we append the block mean we generated for the given block to a block mean list, which we use later to compute the hash
             block_mean_list.append(block_mean)
             block_pi_list.clear()
 
+    # here we compute the mean of the block means (instead of using medians) to threshold the block mean list and create a hash 
     bm_sum = sum(block_mean_list)
     block_mean_list_length = len(block_mean_list)
     mean_of_block_means = bm_sum // block_mean_list_length
 
+    # finally, we use our threshold to generate the hash
     for bm in block_mean_list:
         if bm >= mean_of_block_means:
             hash_as_list.append('1')
@@ -61,6 +69,7 @@ def blockMeanHash(imgFileName):
     return hash_as_string
 
 
+# this is a utility function that generates an binary text file from an image. this text file will serve as input to the circuit.
 def img2text(imgFileName):
     # this should be a separate function for generating the bin_img.txt file that's binary grayscale values of the image 
     img = cv2.imread(imgFileName,0) # Load a color image in grayscale. Grayscale pixel values go from 0 to 255 inclusive
