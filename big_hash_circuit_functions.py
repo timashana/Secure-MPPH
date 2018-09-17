@@ -117,7 +117,7 @@ def ALLMEANS(A, zero, curr_wire, gates, l):
     return means, curr_wire, gates
 
 def BLKHASH(M, one, curr_wire, gates, l):
-    '''PRE: M list of 17 means: M[0]..M[15] blk means, M[15] main mean
+    '''PRE: M list of 16 means: M[0]..M[15] blk means, M[15] main mean
         POST: l contains all gates for finding the 16-bit hash, returned are the list of hash labels, updated curr_wire and gates '''
     size = len(M)
     hash=[]
