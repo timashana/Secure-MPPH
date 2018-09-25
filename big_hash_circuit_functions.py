@@ -117,12 +117,12 @@ def ALLMEANS(A, zero, curr_wire, gates, l):
     return means, curr_wire, gates
 
 def BLKHASH(M, one, curr_wire, gates, l):
-    '''PRE: M list of 16 means: M[0]..M[15] blk means, M[15] main mean
+    '''PRE: M list of 17 means: M[0]..M[15] blk means, M[16] main mean
         POST: l contains all gates for finding the 16-bit hash, returned are the list of hash labels, updated curr_wire and gates '''
-    size = len(M)
+    size = len(M)-1
     hash=[]
     # for the block means, compare them to the main one and return the result (0 if less, 1 if gte), add the result to hash
-    for i in range(size-1):
-        curr_wire, gates = COMPARATOR(M[i], M[size-1], one, curr_wire, gates, l)
+    for i in range(size):
+        curr_wire, gates = COMPARATOR(M[i], M[size], one, curr_wire, gates, l)
         hash.append(curr_wire)
     return hash, curr_wire, gates
