@@ -63,6 +63,7 @@ First we call BlockMeanHash function in which we:
 * Inside the above while loops, we append each pixel’s intensity into a list of block intensity (block_pi_list) and after the loops are done, we find the mean of that list and append it to the list of blocks’ mean intensities (block_mean_list) and clear that block’s block_pi_list for use in the next block
 * After the for loops are done, meaning the program went through every block, we compute the mean of the block means in block_mean_least and assign it to mean_of_block_means
 * Then, we go through the block_mean_list again and compare every block mean to the mean of means and append either 1 (if the block’s mean >= mean of means) or 0 otherwise to the separate list hash_as_list. Then we turn that list into a string and assign it to hash_as_string and return it
+
 Then we call img2text utility function that:
 * Transform the image into a grayscale 2D matrix of decimal values in range 0..255 (8-bit grayscale equivalent) using cv2 library function imread()
 * Go through every pixel in the image in row major order and put its value into the list of intensities (img_pi_list)
