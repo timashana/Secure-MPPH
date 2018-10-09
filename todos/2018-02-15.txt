@@ -1,2 +1,0 @@
-David Anastasia & Bon: Read and report on pages 17-28 of the "Robust Image Hash Spoofing paper" by Azadeh Amir Asgari.
-Paper is located at Perceptual Hash Group/David/Intro Texts/Robust Image Hash Spoofing.pdf
