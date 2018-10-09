@@ -68,19 +68,22 @@ def BINADDER(A, B, zero, curr_wire, gates, l):
     '''PRE: A, B two n-bit binary lists
         POST: l contains all gates for the n-bit ripple-carry adder, returned are sum wire label, updated curr_wire and gates'''
 
+    # the following copies are needed to prevent the original lists from being modified
+    A_copy = A.copy()
+    B_copy = B.copy()
     # extend A, B by 0-valued bit on the left to account for overflow in the sum
-    A.append(zero)
-    B.append(zero)
-    size=len(A)
+    A_copy.append(zero)
+    B_copy.append(zero)
+    size=len(A_copy)
     # use half-adder for the LSB's (no carry-in for LSB)
-    lhalfadd=[XOR(A[0], B[0], curr_wire + 1), AND(A[0], B[0], curr_wire + 2)]
+    lhalfadd=[XOR(A_copy[0], B_copy[0], curr_wire + 1), AND(A_copy[0], B_copy[0], curr_wire + 2)]
     l+=lhalfadd
     sum = [curr_wire + 1]
     curr_wire+=2
     gates+=2
     # use chained full-adders for the other bits
     for i in range(1, size):
-        curr_sum, curr_wire=ADD(A[i], B[i], curr_wire, l)
+        curr_sum, curr_wire=ADD(A_copy[i], B_copy[i], curr_wire, l)
         gates+=7
         sum.append(curr_sum)
     return sum, curr_wire, gates
@@ -88,19 +91,22 @@ def BINADDER(A, B, zero, curr_wire, gates, l):
 def BLKMEAN(A, zero, curr_wire, gates, l):
     '''PRE: A a (2D)list of 16 lists(16 8-bit binary numbers sums of block pixels)
         POST: l contains all the gates for finding the sum of the 16 number, returned are the 8b mean and updated curr-wire, gates'''
-
-    lvls = int(log(len(A), 2))
+    # the following copy is needed to prevent the original list from being modified
+    A_copy = []
+    for i in A:
+        A_copy.append(i.copy())
+    lvls = int(log(len(A_copy), 2))
     # use cascading approach to find the sum of all 16 numbers by adding two at a time => 4 "levels":
     for lvl in range(1, lvls+1):
         # on each level, calculate sum = list of pairwise sums
         sum = []
-        for i in range(0, len(A), 2):
-            currsum, curr_wire, gates = BINADDER(A[i], A[i + 1], zero, curr_wire, gates, l)
+        for i in range(0, len(A_copy), 2):
+            currsum, curr_wire, gates = BINADDER(A_copy[i], A_copy[i + 1], zero, curr_wire, gates, l)
             sum.append(currsum)
         # set A = sum since it contains the addends for the next "level"
-        A = sum
+        A_copy = sum
     #A is now a list containing a single list(the 12-bit sum), chop off 4 LSB's to find mean (divide by 16)
-    return A[0][lvls::], curr_wire, gates
+    return A_copy[0][lvls::], curr_wire, gates
 
 def ALLMEANS(A, zero, curr_wire, gates, l):
     '''PRE: A a (3D)list of 16 blocks (block is a list A descried in BLKMEAN)
@@ -108,6 +114,7 @@ def ALLMEANS(A, zero, curr_wire, gates, l):
             ..returned are the list containing the 16 block means and the main mean, updated curr_wire and gates'''
     means = []
     # for each block, calculate the mean and add it to the list
+
     for i in A:
         currmean, curr_wire, gates = BLKMEAN(i, zero, curr_wire, gates, l)
         means.append(currmean)
