@@ -105,7 +105,7 @@ def BLKMEAN(A, zero, curr_wire, gates, l):
             print('i is', i)
             currsum, curr_wire, gates = BINADDER(A_copy[i], A_copy[i + 1], zero, curr_wire, gates, l)
             print(currsum)
-            sum.append(currsum)
+            sum.append(deepcopy(currsum))
         print('sum at lvl', lvl, 'is', len(sum), 'values long')
         # set A = sum since it contains the addends for the next "level"
         print('A_copy before assignment:', A_copy)
