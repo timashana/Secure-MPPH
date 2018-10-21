@@ -17,6 +17,7 @@ Unless specified, all variables are not actual values, but labels to the corresp
 '''
 
 from math import log
+from copy import deepcopy
 
 def AND(a, b, c):
     '''PRE: a, b input labels, c output label
@@ -69,8 +70,8 @@ def BINADDER(A, B, zero, curr_wire, gates, l):
         POST: l contains all gates for the n-bit ripple-carry adder, returned are sum wire label, updated curr_wire and gates'''
 
     # the following copies are needed to prevent the original lists from being modified
-    A_copy = A.copy()
-    B_copy = B.copy()
+    A_copy = deepcopy(A)
+    B_copy = deepcopy(B)
     # extend A, B by 0-valued bit on the left to account for overflow in the sum
     A_copy.append(zero)
     B_copy.append(zero)
@@ -92,20 +93,26 @@ def BLKMEAN(A, zero, curr_wire, gates, l):
     '''PRE: A a (2D)list of 16 lists(16 8-bit binary numbers sums of block pixels)
         POST: l contains all the gates for finding the sum of the 16 number, returned are the 8b mean and updated curr-wire, gates'''
     # the following copy is needed to prevent the original list from being modified
-    A_copy = []
-    for i in A:
-        A_copy.append(i.copy())
+    A_copy = deepcopy(A)
+    print(A[0], A_copy[0])
     lvls = int(log(len(A_copy), 2))
+    print(lvls)
     # use cascading approach to find the sum of all 16 numbers by adding two at a time => 4 "levels":
     for lvl in range(1, lvls+1):
         # on each level, calculate sum = list of pairwise sums
         sum = []
         for i in range(0, len(A_copy), 2):
+            print('i is', i)
             currsum, curr_wire, gates = BINADDER(A_copy[i], A_copy[i + 1], zero, curr_wire, gates, l)
+            print(currsum)
             sum.append(currsum)
+        print('sum at lvl', lvl, 'is', len(sum), 'values long')
         # set A = sum since it contains the addends for the next "level"
+        print('A_copy before assignment:', A_copy)
         A_copy = sum
+        print('After:', A_copy)
     #A is now a list containing a single list(the 12-bit sum), chop off 4 LSB's to find mean (divide by 16)
+    print('result is:', A_copy[0][lvls::])
     return A_copy[0][lvls::], curr_wire, gates
 
 def ALLMEANS(A, zero, curr_wire, gates, l):

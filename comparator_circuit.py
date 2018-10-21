@@ -4,7 +4,7 @@
 from big_hash_circuit_functions import *
 
 A = [1, 0, 1, 0, 0, 1, 0, 1]
-B = [1, 0, 1, 0, 0, 1, 0, 0]
+B = [1, 0, 1, 0, 0, 1, 0, 1]
 
 A_labels = [i for i in range(2, len(A)+2)]
 B_labels = [i for i in range(len(A)+2, len(A)+len(B)+2)]
