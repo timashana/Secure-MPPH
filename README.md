@@ -68,6 +68,5 @@ Then we call img2text utility function that:
 * Transform the image into a grayscale 2D matrix of decimal values in range 0..255 (8-bit grayscale equivalent) using cv2 library function imread()
 * Go through every pixel in the image in row major order and put its value into the list of intensities (img_pi_list)
 * Turn the decimal values into binary (8-bit), put them into a list and then turn it into a string: img_pi_bin_string
-* ##### QUESTION TO DAVID: how does list() function break up the single string??
 * …
 * Put the resulting bits into the file that will be the input for the circuit
