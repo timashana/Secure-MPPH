@@ -1,27 +1,17 @@
-'''This is is tester program to evaluate comparator part of the circuit by creating the libscapi format circuit for comparing two 8-bit values A and B and outputting 1 bit, s.t.
-    1 means A>=B and 0 means A < B'''
+'''
+Anastasiia Timashova github.com/timashana
 
-from big_hash_circuit_functions import *
+This is a tester program to evaluate BLKMEAN function part of the circuit
+    by creating the libscapi format circuit for calculating the mean of a
+    "block" (a 2D list of even number of pixel grayscale values).
+    This program calls the original BLKMEAN function to test it's correctness
+    against test input which is a block of 4 hardcoded pixels (A, B, C, D)
+'''
 
-A = [0, 1, 0, 1, 0, 0, 0, 0]
-B = [0, 1, 0, 0, 1, 1, 0, 0]
-C = [0, 1, 1, 0, 1, 0, 0, 1]
-D = [0, 1, 0, 1, 1, 1, 1, 1]
-
-curr_wire = 2   # keep track of the last used label
-A_labels = [i for i in range(curr_wire, curr_wire + len(A))]
-curr_wire += len(A)
-B_labels = [i for i in range(curr_wire, curr_wire + len(B))]
-curr_wire += len(B)
-in1 = A[::] + B[::]
-C_labels = [i for i in range((curr_wire), curr_wire + len(C))]
-curr_wire += len(C)
-D_labels = [i for i in range((curr_wire), curr_wire + len(D))]
-curr_wire += len(D)
-in2 = C[::] + D[::]
+from hash_circuit_functions import *
 
 def writeCircuitFile(num_of_gates, parties, p1_wires, p2_wires, gateList, output):
-    with open('/media/timyan/DATA/libscapi/samples/assets/circuits/MPPH/MPPH.txt','w') as f:
+    with open('MPPH.txt','w') as f:
         s1 = str(num_of_gates) + '\n' + str(parties) + '\n'
         s1 += '1 ' + str(2 + p1_wires) + '\n\n'
         f.write(s1)
@@ -50,7 +40,7 @@ def writeCircuitFile(num_of_gates, parties, p1_wires, p2_wires, gateList, output
         f.close()
 
 def writePartyOneInputFile(in1):
-    with open('/media/timyan/DATA/libscapi/samples/assets/circuits/MPPH/MPPHPartyOneInputs.txt', 'w') as t:
+    with open('MPPHPartyOneInputs.txt', 'w') as t:
         s = str(len(in1)+2)+'\n'
         t.write(s)
         for i in range(0,2):
@@ -62,7 +52,7 @@ def writePartyOneInputFile(in1):
         t.close()
 
 def writePartyTwoInputFile(in2):
-    with open('/media/timyan/DATA/libscapi/samples/assets/circuits/MPPH/MPPHPartyTwoInputs.txt', 'w') as t:
+    with open('MPPHPartyTwoInputs.txt', 'w') as t:
         s = str(len(in2))+'\n'
         t.write(s)
         for i in in2:
@@ -73,11 +63,28 @@ def writePartyTwoInputFile(in2):
 l=[]    #list to store the libscapi-formatted gates
 zero=0  # 0-wire
 one=1   # 1-wire
-
 gates = 0   # keep track of the number of gates in the circuit
+curr_wire = 2   # keep track of the last used label
+
+'''all numbers are represented in [LSB...MSB] format
+        for example, 123 -> [3, 2, 1]'''
+A = [0, 1, 0, 1, 0, 0, 0, 0]
+B = [0, 1, 0, 0, 1, 1, 0, 0]
+C = [0, 1, 1, 0, 1, 0, 0, 1]
+D = [0, 1, 0, 1, 1, 1, 1, 1]
+
+A_labels = [i for i in range(curr_wire, curr_wire + len(A))]
+curr_wire += len(A)
+B_labels = [i for i in range(curr_wire, curr_wire + len(B))]
+curr_wire += len(B)
+in1 = A[::] + B[::]
+C_labels = [i for i in range((curr_wire), curr_wire + len(C))]
+curr_wire += len(C)
+D_labels = [i for i in range((curr_wire), curr_wire + len(D))]
+curr_wire += len(D)
+in2 = C[::] + D[::]
 
 nums = [A_labels, B_labels, C_labels, D_labels]
-print(nums)
 
 result3, curr_wire, gates = BLKMEAN(nums, zero, one, curr_wire, gates, l)
 writeCircuitFile(gates, 2, len(in1), len(in2), l, result3)

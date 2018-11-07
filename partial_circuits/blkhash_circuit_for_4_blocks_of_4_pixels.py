@@ -1,7 +1,12 @@
-'''This is is tester program to evaluate comparator part of the circuit by creating the libscapi format circuit for comparing two 8-bit values A and B and outputting 1 bit, s.t.
-    1 means A>=B and 0 means A < B'''
+'''
+Anastasiia Timashova github.com/timashana
 
-from big_hash_circuit_functions import *
+This is a tester program to evaluate BLKHASH part of the circuit by creating
+    the libscapi format circuit for calculating block-mean-hash of
+    4 blocks of 4 pixels that can be controlled manually (every pixel value is hardcoded)
+'''
+
+from hash_circuit_functions import *
 
 def writeCircuitFile(num_of_gates, parties, p2_wires, gateList, output):
     with open('MPPH.txt','w') as f:
@@ -57,13 +62,13 @@ def writePartyTwoInputFile(p2):
 l=[]    #list to store the libscapi-formatted gates
 zero=0  # 0-wire
 one=1   # 1-wire
-
 gates = 0   # keep track of the number of gates in the circuit
-
 curr_wire = 2   # keep track of the last used label
 
 ''' MANUAL BLOCK ASSIGNMENT TO CONTROL EVERY PIXEL'''
 
+'''all numbers are represented in [LSB...MSB] format
+        for example, 123 -> [3, 2, 1]'''
 A_1 = [0, 0, 0, 0, 0, 0, 0, 0]
 B_1 = [0, 0, 0, 0, 0, 0, 0, 0]
 C_1 = [0, 0, 0, 0, 0, 0, 0, 0]

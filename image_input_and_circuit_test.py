@@ -72,17 +72,19 @@ def blockMeanHash(imgFileName):
 def img2text(imgFileName):
     # this should be a separate function for generating the bin_img.txt file that's binary grayscale values of the image
     img = cv2.imread(imgFileName,0) # Load a color image in grayscale. Grayscale pixel values go from 0 to 255 inclusive
-    img_side_length = img.shape[0]
 
     img_pi_list = [] #pixel intensity list for whole image
-    for pixel_row in range(img_side_length):
-        for pixel_col in range(img_side_length):
-            pixel_intensity = img[pixel_row, pixel_col] #possible source of error if hashes don't match
-            img_pi_list.append(pixel_intensity)
+    for pixel_row in img:
+        for pixels in pixel_row:
+            img_pi_list.append(pixels)
 
     #old img_pi_string returned pixel intensities in msb to lsb order
     img_pi_bin_string = ''.join(["{:08b}".format(pi) for pi in img_pi_list]) #creates boolean string from uint8 values in pixel intesnity list (block_pi_list)
     img_pi_bin_list = list(img_pi_bin_string)
+
+    # string below is needed to match binary representation format of [LSB...MSB] in the circuit
+    img_pi_bin_list.reverse()
+
     img_pi_bin_string_column = "\n".join(img_pi_bin_list)
     MPPHPartyOneInputs = str(len(img_pi_bin_list)) + "\n" + img_pi_bin_string_column
 
@@ -92,5 +94,5 @@ def img2text(imgFileName):
 
 
 # execution of functions starts here
-print("image hash: ", blockMeanHash('big_img.jpg'))
-img2text('big_img.jpg')
+print("image hash (from LSB to MSB) is:", blockMeanHash('images/big_img.jpg')[::-1], sep='\n')
+img2text('images/big_img.jpg')

@@ -1,19 +1,12 @@
-'''This is is tester program to evaluate comparator part of the circuit by creating the libscapi format circuit for comparing two 8-bit values A and B and outputting 1 bit, s.t.
-    1 means A>=B and 0 means A < B'''
+'''
+Anastasiia Timashova github.com/timashana
 
-from big_hash_circuit_functions import *
+This is a tester program to evaluate BINADDER part of the circuit by creating
+    the libscapi format circuit for adding two arbitrary long values A and B
+    where |A|=|B|=n - arbitraty.
+'''
 
-A = [1, 1, 1, 1, 1, 1, 1, 1, 1]
-B = [0, 0, 0, 0, 0, 0, 0, 0, 1]
-# C = [1, 1, 1, 1, 1, 1, 1, 1, 0]
-# D = [1, 1, 1, 1, 1, 1, 1, 1, 0]
-
-curr_wire = 2   # keep track of the last used label
-A_labels = [i for i in range(curr_wire, curr_wire + len(A))]
-curr_wire += len(A)
-B_labels = [i for i in range(curr_wire, curr_wire + len(B))]
-curr_wire += len(B)
-# C_labels = [i for i in range(curr_wire)]
+from hash_circuit_functions import *
 
 def writeCircuitFile(num_of_gates, parties, p1_wires, p2_wires, gateList, output):
     with open('MPPH.txt','w') as f:
@@ -68,8 +61,19 @@ def writePartyTwoInputFile(B):
 l=[]    #list to store the libscapi-formatted gates
 zero=0  # 0-wire
 one=1   # 1-wire
-
 gates = 0   # keep track of the number of gates in the circuit
+curr_wire = 2   # keep track of the last used label
+
+'''all numbers are represented in [LSB...MSB] format
+        for example, 123 -> [3, 2, 1]'''
+A = [1, 1, 1, 1, 1, 1, 1, 1, 1]
+B = [0, 0, 0, 0, 0, 0, 0, 0, 1]
+
+A_labels = [i for i in range(curr_wire, curr_wire + len(A))]
+curr_wire += len(A)
+B_labels = [i for i in range(curr_wire, curr_wire + len(B))]
+curr_wire += len(B)
+
 
 result, curr_wire, gates = BINADDER(A_labels, B_labels, one, curr_wire, gates, l)
 # Uncomment below to return the mean of the 2 numbers

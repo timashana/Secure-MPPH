@@ -1,13 +1,12 @@
-'''This is is tester program to evaluate comparator part of the circuit by creating the libscapi format circuit for comparing two 8-bit values A and B and outputting 1 bit, s.t.
-    1 means A>=B and 0 means A < B'''
+'''
+Anastasiia Timashova github.com/timashana
 
-from big_hash_circuit_functions import *
+This is a tester program to evaluate COMPARATOR function part of the circuit
+    by creating the libscapi format circuit for comparing two 8-bit values A and B
+    and outputting 1 bit, s.t. 1 means A>=B and 0 means A < B
+'''
 
-A = [1, 0, 1, 0, 0, 1, 0, 1]
-B = [1, 0, 1, 0, 0, 1, 0, 1]
-
-A_labels = [i for i in range(2, len(A)+2)]
-B_labels = [i for i in range(len(A)+2, len(A)+len(B)+2)]
+from hash_circuit_functions import *
 
 def writeCircuitFile(num_of_gates, parties, p1_wires, p2_wires, gateList, output):
     with open('MPPH.txt','w') as f:
@@ -61,8 +60,20 @@ def writePartyTwoInputFile(B):
 l=[]    #list to store the libscapi-formatted gates
 zero=0  # 0-wire
 one=1   # 1-wire
-curr_wire = len(A)+len(B)+2   # keep track of the last used label
+curr_wire = 2   # keep track of the last used label
 gates = 0   # keep track of the number of gates in the circuit
+
+
+'''all numbers are represented in [LSB...MSB] format
+        for example, 123 -> [3, 2, 1]'''
+A = [1, 0, 1, 0, 0, 1, 0, 1]
+B = [1, 0, 1, 0, 0, 1, 0, 1]
+
+A_labels = [i for i in range(2, len(A)+2)]
+curr_wire += len(A)
+B_labels = [i for i in range(len(A)+2, len(A)+len(B)+2)]
+curr_wire += len(B)
+
 
 curr_wire, gates = COMPARATOR(A_labels, B_labels, one, curr_wire, gates, l)
 result = curr_wire

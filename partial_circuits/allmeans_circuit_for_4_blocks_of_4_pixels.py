@@ -1,7 +1,15 @@
-'''This is is tester program to evaluate comparator part of the circuit by creating the libscapi format circuit for comparing two 8-bit values A and B and outputting 1 bit, s.t.
-    1 means A>=B and 0 means A < B'''
+'''
+Anastasiia Timashova github.com/timashana
 
-from big_hash_circuit_functions import *
+This is a tester program to evaluate ALLMEANS function part of the circuit
+    by creating the libscapi format circuit for calculationg list of means
+    for 4 blocks of 4 pixels that can be controlled manually (every pixel value is hardcoded)
+    or automatically (blocks are identical).
+    The result is a binary string of 5 means: 4  - for every block and the last value
+    is the mean of the previous 4 - the main mean
+'''
+
+from hash_circuit_functions import *
 
 def writeCircuitFile(num_of_gates, parties, p2_wires, gateList, output):
     with open('MPPH.txt','w') as f:
@@ -58,13 +66,13 @@ def writePartyTwoInputFile(p2):
 l=[]    #list to store the libscapi-formatted gates
 zero=0  # 0-wire
 one=1   # 1-wire
-
 gates = 0   # keep track of the number of gates in the circuit
-
 curr_wire = 2   # keep track of the last used label
 
 ''' BELOW ALL 4 BLOCKS ARE IDENTICAL FOR SIMPLICITY OR CHOSE ONE AFTER FOR MANUAL CONTROL OF EVERY PIXEL'''
 
+'''all numbers are represented in [LSB...MSB] format
+        for example, 123 -> [3, 2, 1]'''
 # A = [0, 0, 0, 0, 0, 0, 0, 0]
 # B = [1, 1, 1, 1, 1, 1, 1, 1]
 # C = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -74,12 +82,10 @@ curr_wire = 2   # keep track of the last used label
 # curr_wire += len(A)
 # B_labels = [i for i in range(curr_wire, curr_wire + len(B))]
 # curr_wire += len(B)
-# in1 = A[::] + B[::]
 # C_labels = [i for i in range((curr_wire), curr_wire + len(C))]
 # curr_wire += len(C)
 # D_labels = [i for i in range((curr_wire), curr_wire + len(D))]
 # curr_wire += len(D)
-# in2 = C[::] + D[::]
 #
 # # 1 block of 4 pixels
 # block = [A, B, C, D]
@@ -96,6 +102,8 @@ curr_wire = 2   # keep track of the last used label
 
 ''' MANUAL BLOCK ASSIGNMENT TO CONTROL EVERY PIXEL'''
 
+'''all numbers are represented in [LSB...MSB] format
+        for example, 123 -> [3, 2, 1]'''
 A_1 = [0, 0, 0, 0, 0, 0, 0, 0]
 B_1 = [0, 0, 0, 0, 0, 0, 0, 0]
 C_1 = [0, 0, 0, 0, 0, 0, 0, 0]

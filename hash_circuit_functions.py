@@ -12,6 +12,7 @@ zero 0-wire label
 
 All lists representing binary numbers are enumerated from LSB to MSB.
 That is, A = [A0, A1, ..., An] represents binary number An..A2A1A0
+For example, 12345 -> [5, 4, 3, 2, 1]
 
 Unless specified, all variables are not actual values, but labels to the corresponding wires
 '''
@@ -51,8 +52,8 @@ def TWOCOMPARATOR(a, b, curr_wire, one, l):
     return l_cout
 
 def COMPARATOR(A, B, one, curr_wire, gates, l):
-    '''PRE: A, B 8-bit binary lists
-        POST: l contains all gates for the 8-bit comparator, returned are result wire label (w/values: 1 => A>=B, 0 => A<B) and updated gates number'''
+    '''PRE: A, B n-bit binary lists (|A|=|B|)
+        POST: l contains all gates for the n-bit comparator, returned are result wire label (w/values: 1 => A>=B, 0 => A<B) and updated gates number'''
 
     # OR curr_wire and one to make curr_wire carry value of 1
     l_curr_wire_to_one = [XOR(one, curr_wire, curr_wire+1), AND(one, curr_wire, curr_wire+2), XOR(curr_wire+1, curr_wire+2, curr_wire+3)]
@@ -90,12 +91,12 @@ def BINADDER(A, B, zero, curr_wire, gates, l):
     return sum, curr_wire, gates
 
 def BLKMEAN(A, zero, one, curr_wire, gates, l):
-    '''PRE: A a (2D)list of 16 lists(16 8-bit binary numbers sums of block pixels)
-        POST: l contains all the gates for finding the sum of the 16 number, returned are the 8b mean and updated curr-wire, gates'''
+    '''PRE: A a (2D)list of a block's pixels' grayscale lists ( n 8-bit binary numbers of block pixels)
+        POST: l contains all the gates for finding the mean of the n numbers, returned are the 8b mean and updated curr-wire, gates'''
     #the following copy is needed to prevent the original list from being modified
     A_copy = deepcopy(A)
     lvls = int(log(len(A_copy), 2))
-    # use cascading approach to find the sum of all 16 numbers by adding two at a time => 4 "levels":
+    # use cascading approach to find the sum of all n numbers by adding two at a time => log(n) "levels":
     for lvl in range(1, lvls+1):
         # on each level, calculate sum = list of pairwise sums
         sum = []
@@ -105,13 +106,14 @@ def BLKMEAN(A, zero, one, curr_wire, gates, l):
             sum.append(deepcopy(currsum))
         # set A = sum since it contains the addends for the next "level"
         A_copy = deepcopy(sum)
-    # A is now a list containing a single list(the 12-bit sum), chop off 4 LSB's to find mean (divide by 16)
+    # A is now a list containing a single list(the (n+log(n))-bit sum), chop off log(n) LSB's to find mean (divide by n)
     return A_copy[0][lvls::], curr_wire, gates
 
 def ALLMEANS(A, zero, one, curr_wire, gates, l):
-    '''PRE: A a (3D)list of 16 blocks (block is a list A descried in BLKMEAN)
-        POST: l contains all the gates for finding all 16 blocks' means and the mean of the means, ..
-            ..returned are the list containing the 16 block means and the main mean, updated curr_wire and gates'''
+    '''PRE: A a (3D)list of blocks (block is a list A descried in BLKMEAN)
+        POST: l contains all the gates for finding all blocks' means and the mean of the means, ..
+            ..returned are the list containing the block means and the main mean as its last element, ..
+            ..updated curr_wire and gates'''
     means = []
     # for each block, calculate the mean and add it to the list
 
@@ -124,8 +126,8 @@ def ALLMEANS(A, zero, one, curr_wire, gates, l):
     return means, curr_wire, gates
 
 def BLKHASH(M, one, curr_wire, gates, l):
-    '''PRE: M list of 17 means: M[0]..M[15] blk means, M[16] main mean
-        POST: l contains all gates for finding the 16-bit hash, returned are the list of hash labels, updated curr_wire and gates '''
+    '''PRE: M list of n+1 means: M[0]..M[n] blk means, M[n+1] - main mean
+        POST: l contains all gates for finding the (n)-bit hash, returned are the list of hash labels, updated curr_wire and gates '''
     size = len(M)-1
     hash=[]
     # for the block means, compare them to the main one and return the result (0 if less, 1 if gte), add the result to hash
