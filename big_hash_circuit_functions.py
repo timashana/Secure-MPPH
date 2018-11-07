@@ -89,33 +89,26 @@ def BINADDER(A, B, zero, curr_wire, gates, l):
         sum.append(curr_sum)
     return sum, curr_wire, gates
 
-def BLKMEAN(A, zero, curr_wire, gates, l):
+def BLKMEAN(A, zero, one, curr_wire, gates, l):
     '''PRE: A a (2D)list of 16 lists(16 8-bit binary numbers sums of block pixels)
         POST: l contains all the gates for finding the sum of the 16 number, returned are the 8b mean and updated curr-wire, gates'''
-    # the following copy is needed to prevent the original list from being modified
+    #the following copy is needed to prevent the original list from being modified
     A_copy = deepcopy(A)
-    print(A[0], A_copy[0])
     lvls = int(log(len(A_copy), 2))
-    print(lvls)
     # use cascading approach to find the sum of all 16 numbers by adding two at a time => 4 "levels":
     for lvl in range(1, lvls+1):
         # on each level, calculate sum = list of pairwise sums
         sum = []
         for i in range(0, len(A_copy), 2):
-            print('i is', i)
-            currsum, curr_wire, gates = BINADDER(A_copy[i], A_copy[i + 1], zero, curr_wire, gates, l)
-            print(currsum)
+            currsum = 0
+            currsum, curr_wire, gates = BINADDER(A_copy[i], A_copy[i + 1], one, curr_wire, gates, l)
             sum.append(deepcopy(currsum))
-        print('sum at lvl', lvl, 'is', len(sum), 'values long')
         # set A = sum since it contains the addends for the next "level"
-        print('A_copy before assignment:', A_copy)
-        A_copy = sum
-        print('After:', A_copy)
-    #A is now a list containing a single list(the 12-bit sum), chop off 4 LSB's to find mean (divide by 16)
-    print('result is:', A_copy[0][lvls::])
+        A_copy = deepcopy(sum)
+    # A is now a list containing a single list(the 12-bit sum), chop off 4 LSB's to find mean (divide by 16)
     return A_copy[0][lvls::], curr_wire, gates
 
-def ALLMEANS(A, zero, curr_wire, gates, l):
+def ALLMEANS(A, zero, one, curr_wire, gates, l):
     '''PRE: A a (3D)list of 16 blocks (block is a list A descried in BLKMEAN)
         POST: l contains all the gates for finding all 16 blocks' means and the mean of the means, ..
             ..returned are the list containing the 16 block means and the main mean, updated curr_wire and gates'''
@@ -123,10 +116,10 @@ def ALLMEANS(A, zero, curr_wire, gates, l):
     # for each block, calculate the mean and add it to the list
 
     for i in A:
-        currmean, curr_wire, gates = BLKMEAN(i, zero, curr_wire, gates, l)
+        currmean, curr_wire, gates = BLKMEAN(i, zero, one,curr_wire, gates, l)
         means.append(currmean)
     # calculate the mean of the means and add it to the same list
-    prime_mean, curr_wire, gates = BLKMEAN(means, zero, curr_wire, gates, l)
+    prime_mean, curr_wire, gates = BLKMEAN(means, zero, one, curr_wire, gates, l)
     means.append(prime_mean)
     return means, curr_wire, gates
 

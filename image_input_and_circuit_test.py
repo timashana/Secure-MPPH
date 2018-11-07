@@ -15,7 +15,7 @@ def blockMeanHash(imgFileName):
     hash_as_list = [] #calulate the hash digit for each block mean and then put it here
 
 
-    # In this nested for loop, I am iterating through a (kind of) of 2-d matrix of 2-d matrices. 
+    # In this nested for loop, I am iterating through a (kind of) of 2-d matrix of 2-d matrices.
         # it isn't really a 4d matrix because I only have two coordinates for the dataframe
         # it's really a 2d matrix for which I make reference to submatrices within it (which are also 2d)
     # By dividing the image into blocks, each block itself is a 2d matrix of grayscale intensity values.
@@ -52,7 +52,7 @@ def blockMeanHash(imgFileName):
             block_mean_list.append(block_mean)
             block_pi_list.clear()
 
-    # here we compute the mean of the block means (instead of using medians) to threshold the block mean list and create a hash 
+    # here we compute the mean of the block means (instead of using medians) to threshold the block mean list and create a hash
     bm_sum = sum(block_mean_list)
     block_mean_list_length = len(block_mean_list)
     mean_of_block_means = bm_sum // block_mean_list_length
@@ -70,7 +70,7 @@ def blockMeanHash(imgFileName):
 
 # this is a utility function that generates an binary text file from an image. this text file will serve as input to the circuit.
 def img2text(imgFileName):
-    # this should be a separate function for generating the bin_img.txt file that's binary grayscale values of the image 
+    # this should be a separate function for generating the bin_img.txt file that's binary grayscale values of the image
     img = cv2.imread(imgFileName,0) # Load a color image in grayscale. Grayscale pixel values go from 0 to 255 inclusive
     img_side_length = img.shape[0]
 
@@ -81,7 +81,7 @@ def img2text(imgFileName):
             img_pi_list.append(pixel_intensity)
 
     #old img_pi_string returned pixel intensities in msb to lsb order
-    img_pi_bin_string = ''.join(["{:08b}".format(pi) for pi in img_pi_list]) #creates boolean string from uint8 values in pixel intesnity list (block_pi_list) 
+    img_pi_bin_string = ''.join(["{:08b}".format(pi) for pi in img_pi_list]) #creates boolean string from uint8 values in pixel intesnity list (block_pi_list)
     img_pi_bin_list = list(img_pi_bin_string)
     img_pi_bin_string_column = "\n".join(img_pi_bin_list)
     MPPHPartyOneInputs = str(len(img_pi_bin_list)) + "\n" + img_pi_bin_string_column
